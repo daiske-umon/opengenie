@@ -8,7 +8,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export function FeaturedProjects() {
-  const { data: projects, error } = trpc.projects.list.useQuery(undefined, {
+  const { data: projects } = trpc.projects.list.useQuery(undefined, {
     staleTime: 30000,
     retry: 1,
   });
@@ -19,7 +19,9 @@ export function FeaturedProjects() {
     description: p.description ?? "",
     techStack: (p.techStack as string[]) ?? [],
     votes: p.ideaVoteCount ?? 0,
-    status: (p.status === "active" ? "building" : "shipped") as "building" | "shipped",
+    status: (p.status === "active" ? "building" : "shipped") as
+      | "building"
+      | "shipped",
   }));
 
   const displayProjects =
@@ -38,32 +40,28 @@ export function FeaturedProjects() {
     <section className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between">
-          <motion.div
-            initial={{ opacity: 1, y: 0 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl font-mono">
               Shipped by the{" "}
-              <span className="text-gradient">community</span>
+              <span className="text-primary">community</span>
             </h2>
-            <p className="mt-4 text-muted-foreground">
-              Every project started as someone&apos;s idea. Here are a few favorites.
+            <p className="mt-3 text-xs text-muted-foreground font-mono">
+              Every project started as someone&apos;s idea.
             </p>
-          </motion.div>
+          </div>
           <Link
             href="/projects"
-            className="hidden items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80 sm:flex"
+            className="hidden items-center gap-1 text-xs font-mono text-primary transition-colors hover:text-primary/80 sm:flex"
           >
-            View all <ArrowRight className="h-3.5 w-3.5" />
+            view_all <ArrowRight className="h-3 w-3" />
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {displayProjects.map((project, i) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
@@ -82,9 +80,9 @@ export function FeaturedProjects() {
         <div className="mt-8 text-center sm:hidden">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-1 text-sm font-medium text-primary"
+            className="inline-flex items-center gap-1 text-xs font-mono text-primary"
           >
-            View all projects <ArrowRight className="h-3.5 w-3.5" />
+            view_all <ArrowRight className="h-3 w-3" />
           </Link>
         </div>
       </div>

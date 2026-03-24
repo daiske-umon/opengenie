@@ -1,18 +1,23 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { MessageSquare } from "lucide-react";
 import { VoteButton } from "./vote-button";
 
-type Status = "draft" | "voting" | "selected" | "building" | "shipped" | "archived";
+type Status =
+  | "draft"
+  | "voting"
+  | "selected"
+  | "building"
+  | "shipped"
+  | "archived";
 
 const statusColors: Record<string, string> = {
-  draft: "bg-gray-500/10 text-gray-400 border-gray-500/20",
-  voting: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-  selected: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-  building: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-  shipped: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-  archived: "bg-gray-500/10 text-gray-400 border-gray-500/20",
+  draft: "border-[#27272a] text-[#6b7280]",
+  voting: "border-primary/30 text-primary",
+  selected: "border-primary/30 text-primary",
+  building: "border-primary/30 text-primary",
+  shipped: "border-green-500/30 text-green-400",
+  archived: "border-[#27272a] text-[#6b7280]",
 };
 
 interface IdeaCardProps {
@@ -37,36 +42,42 @@ export function IdeaCard({
   commentCount,
 }: IdeaCardProps) {
   return (
-    <div className="group relative rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+    <div className="group relative border border-border bg-[#0a0a0a] p-5 transition-colors hover:border-primary">
       <div className="flex items-start justify-between gap-4">
-        <div className="flex-1 space-y-3">
+        <div className="flex-1 space-y-2.5">
           <div className="flex items-center gap-2">
-            <Badge
-              variant="outline"
-              className={statusColors[status] ?? statusColors.draft}
+            <span
+              className={`border px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider ${
+                statusColors[status] ?? statusColors.draft
+              }`}
             >
               {status}
-            </Badge>
-            <span className="text-xs text-muted-foreground">by @{author}</span>
+            </span>
+            <span className="text-[10px] text-muted-foreground font-mono">
+              @{author}
+            </span>
           </div>
-          <h3 className="text-lg font-semibold leading-snug group-hover:text-primary transition-colors">
+          <h3 className="text-sm font-bold font-mono leading-snug group-hover:text-primary transition-colors">
             {title}
           </h3>
-          <p className="text-sm text-muted-foreground line-clamp-2">
+          <p className="text-xs text-muted-foreground line-clamp-2 font-mono">
             {description}
           </p>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1">
             {tags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="text-xs">
-                {tag}
-              </Badge>
+              <span
+                key={tag}
+                className="border border-border px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground"
+              >
+                [{tag}]
+              </span>
             ))}
           </div>
         </div>
         <VoteButton ideaId={id} count={votes} />
       </div>
-      <div className="mt-4 flex items-center gap-1.5 text-xs text-muted-foreground">
-        <MessageSquare className="h-3.5 w-3.5" />
+      <div className="mt-3 flex items-center gap-1.5 text-[10px] text-muted-foreground font-mono">
+        <MessageSquare className="h-3 w-3" />
         {commentCount} comments
       </div>
     </div>

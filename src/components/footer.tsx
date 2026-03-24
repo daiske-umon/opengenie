@@ -1,69 +1,69 @@
 import Link from "next/link";
-import { Sparkles } from "lucide-react";
+import { Terminal } from "lucide-react";
 import { GitHubIcon, XIcon } from "./icons";
 
 const footerLinks = {
-  Platform: [
-    { href: "/ideas", label: "Ideas" },
-    { href: "/projects", label: "Projects" },
-    { href: "/about", label: "About" },
+  platform: [
+    { href: "/ideas", label: "ideas" },
+    { href: "/projects", label: "projects" },
+    { href: "/about", label: "about" },
   ],
-  Community: [
-    { href: "https://github.com/opengenie", label: "GitHub" },
-    { href: "#", label: "Discord" },
-    { href: "#", label: "Twitter" },
+  community: [
+    { href: "https://github.com/opengenie", label: "github" },
+    { href: "#", label: "discord" },
+    { href: "#", label: "twitter" },
   ],
-  Resources: [
-    { href: "#", label: "Documentation" },
-    { href: "#", label: "Contributing Guide" },
-    { href: "#", label: "Code of Conduct" },
+  resources: [
+    { href: "#", label: "docs" },
+    { href: "#", label: "contributing" },
+    { href: "#", label: "code_of_conduct" },
   ],
 };
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-background">
+    <footer className="border-t border-border bg-[#0a0a0a]">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Sparkles className="h-4 w-4" />
-              </div>
-              <span className="text-lg font-bold tracking-tight">
+              <Terminal className="h-4 w-4 text-primary" />
+              <span className="text-sm font-bold tracking-tight font-mono text-primary">
                 OpenGenie
               </span>
             </Link>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Your wish is our commit.
+            <p className="mt-4 text-xs text-muted-foreground font-mono leading-relaxed">
+              {`// your wish is our commit`}
               <br />
-              Open-source ideas, built every week.
+              {`// open-source ideas, built weekly`}
             </p>
-            <div className="mt-4 flex gap-3">
+            <div className="mt-4 flex gap-2">
               <a
                 href="https://github.com/opengenie"
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                className="flex h-8 w-8 items-center justify-center border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary"
               >
-                <GitHubIcon className="h-4 w-4" />
+                <GitHubIcon className="h-3.5 w-3.5" />
               </a>
               <a
                 href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                className="flex h-8 w-8 items-center justify-center border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary"
               >
-                <XIcon className="h-4 w-4" />
+                <XIcon className="h-3.5 w-3.5" />
               </a>
             </div>
           </div>
 
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h3 className="text-sm font-semibold">{title}</h3>
-              <ul className="mt-4 space-y-3">
+              <h3 className="text-xs font-mono text-primary uppercase tracking-wider">
+                {`[${title}]`}
+              </h3>
+              <ul className="mt-4 space-y-2">
                 {links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      className="text-xs text-muted-foreground font-mono transition-colors hover:text-primary"
                     >
                       {link.label}
                     </Link>
@@ -75,9 +75,8 @@ export function Footer() {
         </div>
 
         <div className="mt-12 border-t border-border pt-8">
-          <p className="text-center text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} OpenGenie. Open source under MIT
-            License.
+          <p className="text-center text-xs text-muted-foreground font-mono">
+            &copy; {new Date().getFullYear()} OpenGenie | MIT License | built by the community
           </p>
         </div>
       </div>

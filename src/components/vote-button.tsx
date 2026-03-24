@@ -48,7 +48,6 @@ export function VoteButton({ ideaId, count }: VoteButtonProps) {
 
   function handleVote() {
     if (!session?.user) {
-      // Redirect to login
       window.location.href = "/login";
       return;
     }
@@ -63,17 +62,17 @@ export function VoteButton({ ideaId, count }: VoteButtonProps) {
   return (
     <button
       onClick={handleVote}
-      className={`flex flex-col items-center gap-0.5 rounded-xl border px-3 py-2 text-sm font-medium transition-all ${
+      className={`flex flex-col items-center gap-0.5 border px-3 py-2 text-xs font-mono font-bold transition-all ${
         voted
-          ? "border-primary bg-primary/10 text-primary glow-primary"
-          : "border-border bg-secondary/50 text-muted-foreground hover:border-primary/50 hover:text-primary"
+          ? "border-primary bg-primary/10 text-primary"
+          : "border-border text-muted-foreground hover:border-primary hover:text-primary"
       }`}
     >
       <motion.div
         animate={voted ? { y: [0, -4, 0] } : {}}
         transition={{ duration: 0.3 }}
       >
-        <ChevronUp className="h-4 w-4" />
+        <ChevronUp className="h-3.5 w-3.5" />
       </motion.div>
       <AnimatePresence mode="wait">
         <motion.span

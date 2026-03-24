@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Lightbulb, Vote, Hammer, Globe, Heart, Sparkles } from "lucide-react";
+import { Lightbulb, Vote, Hammer, Globe, Heart, Terminal } from "lucide-react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -34,25 +34,25 @@ export default function AboutPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10"
+          className="mx-auto mb-6 flex h-12 w-12 items-center justify-center border border-border"
         >
-          <Sparkles className="h-8 w-8 text-primary" />
+          <Terminal className="h-6 w-6 text-primary" />
         </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-3xl font-bold tracking-tight sm:text-5xl"
+          className="text-2xl font-bold tracking-tight sm:text-4xl font-mono"
         >
           Turning ideas into
           <br />
-          <span className="text-gradient">open-source reality</span>
+          <span className="text-primary">open-source reality</span>
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="mt-6 text-lg text-muted-foreground"
+          className="mt-5 text-sm text-muted-foreground font-mono"
         >
           OpenGenie is a community-powered platform where anyone can submit an
           idea for an open-source project. The community votes, maintainers
@@ -63,28 +63,55 @@ export default function AboutPage() {
 
       {/* How it works */}
       <div className="mt-24">
-        <h2 className="text-center text-2xl font-bold sm:text-3xl">
-          How it works
+        <h2 className="text-center text-xl font-bold sm:text-2xl font-mono">
+          <span className="text-muted-foreground">{`// `}</span>how it works
         </h2>
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { icon: Lightbulb, step: "1", title: "Submit", desc: "Share your idea with the community" },
-            { icon: Vote, step: "2", title: "Vote", desc: "Upvote your favorites each week" },
-            { icon: Hammer, step: "3", title: "Build", desc: "Maintainers build the top idea" },
-            { icon: Globe, step: "4", title: "Open Up", desc: "Project goes live as open source" },
+            {
+              icon: Lightbulb,
+              step: "01",
+              title: "Submit",
+              desc: "Share your idea with the community",
+            },
+            {
+              icon: Vote,
+              step: "02",
+              title: "Vote",
+              desc: "Upvote your favorites each week",
+            },
+            {
+              icon: Hammer,
+              step: "03",
+              title: "Build",
+              desc: "Maintainers build the top idea",
+            },
+            {
+              icon: Globe,
+              step: "04",
+              title: "Open Up",
+              desc: "Project goes live as open source",
+            },
           ].map((item, i) => (
             <motion.div
               key={item.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * i }}
-              className="text-center"
+              className="border border-border p-5 text-center transition-colors hover:border-primary"
             >
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10">
-                <item.icon className="h-7 w-7 text-primary" />
+              <div className="text-[10px] font-mono text-muted-foreground/50 mb-2">
+                [{item.step}]
               </div>
-              <div className="mt-4 text-lg font-semibold">{item.title}</div>
-              <p className="mt-1 text-sm text-muted-foreground">{item.desc}</p>
+              <div className="mx-auto flex h-10 w-10 items-center justify-center border border-border">
+                <item.icon className="h-5 w-5 text-primary" />
+              </div>
+              <div className="mt-3 text-sm font-bold font-mono">
+                {item.title}
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground font-mono">
+                {item.desc}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -92,21 +119,23 @@ export default function AboutPage() {
 
       {/* Values */}
       <div className="mt-24">
-        <h2 className="text-center text-2xl font-bold sm:text-3xl">
-          What we believe
+        <h2 className="text-center text-xl font-bold sm:text-2xl font-mono">
+          <span className="text-muted-foreground">{`// `}</span>what we believe
         </h2>
-        <div className="mt-12 grid gap-6 sm:grid-cols-3">
+        <div className="mt-12 grid gap-4 sm:grid-cols-3">
           {values.map((value, i) => (
             <motion.div
               key={value.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * i }}
-              className="rounded-xl border border-border bg-card p-6"
+              className="border border-border bg-[#0a0a0a] p-5 transition-colors hover:border-primary"
             >
-              <value.icon className="h-8 w-8 text-primary" />
-              <h3 className="mt-4 text-lg font-semibold">{value.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
+              <value.icon className="h-5 w-5 text-primary" />
+              <h3 className="mt-3 text-sm font-bold font-mono">
+                {value.title}
+              </h3>
+              <p className="mt-2 text-xs text-muted-foreground font-mono leading-relaxed">
                 {value.description}
               </p>
             </motion.div>
@@ -116,15 +145,18 @@ export default function AboutPage() {
 
       {/* CTA */}
       <div className="mt-24 text-center">
-        <h2 className="text-2xl font-bold sm:text-3xl">Ready to build?</h2>
-        <p className="mt-4 text-muted-foreground">
+        <h2 className="text-xl font-bold sm:text-2xl font-mono">
+          {`> `}
+          <span className="text-primary">ready_to_build?</span>
+        </h2>
+        <p className="mt-3 text-xs text-muted-foreground font-mono">
           Join the community and start turning ideas into code.
         </p>
         <Link
           href="/ideas"
-          className="mt-8 inline-flex h-12 items-center gap-2 rounded-xl bg-primary px-8 text-sm font-semibold text-primary-foreground transition-all hover:shadow-lg hover:shadow-primary/25"
+          className="mt-8 inline-flex h-10 items-center gap-2 border border-primary bg-primary px-6 text-xs font-bold text-primary-foreground transition-all hover:bg-transparent hover:text-primary font-mono uppercase tracking-widest"
         >
-          Get Started <ArrowRight className="h-4 w-4" />
+          {`> get_started`} <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </div>

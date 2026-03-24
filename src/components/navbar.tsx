@@ -1,77 +1,86 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X, Sparkles } from "lucide-react";
+import { Menu, X, Terminal } from "lucide-react";
 import { GitHubIcon } from "./icons";
-import { ThemeToggle } from "./theme-toggle";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useSession, signOut } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 const links = [
-  { href: "/ideas", label: "Ideas" },
-  { href: "/projects", label: "Projects" },
-  { href: "/about", label: "About" },
+  { href: "/ideas", label: "ideas" },
+  { href: "/projects", label: "projects" },
+  { href: "/about", label: "about" },
 ];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
+  const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-[#0a0a0a]">
+      <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-shadow group-hover:glow-primary">
-            <Sparkles className="h-4 w-4" />
-          </div>
-          <span className="text-lg font-bold tracking-tight">OpenGenie</span>
+          <Terminal className="h-4 w-4 text-primary" />
+          <span className="text-sm font-bold tracking-tight font-mono text-primary">
+            OpenGenie
+          </span>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden items-center gap-1 md:flex">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          ))}
+        <div className="hidden items-center gap-0 md:flex">
+          {links.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`relative px-4 py-2 text-sm font-mono transition-colors ${
+                  active
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {active && (
+                  <span className="absolute bottom-0 left-4 right-4 h-px bg-primary" />
+                )}
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <ThemeToggle />
           {session?.user ? (
             <div className="flex items-center gap-3">
-              <span className="text-sm text-muted-foreground">
-                {session.user.name}
+              <span className="text-xs text-muted-foreground font-mono">
+                @{session.user.name}
               </span>
               <button
                 onClick={() => signOut()}
-                className="inline-flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary/50 px-4 text-sm font-medium transition-colors hover:bg-secondary"
+                className="inline-flex h-8 items-center gap-2 border border-border px-3 text-xs font-mono text-muted-foreground transition-colors hover:border-primary hover:text-primary"
               >
-                Sign out
+                logout
               </button>
             </div>
           ) : (
             <Link
               href="/login"
-              className="inline-flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary/50 px-4 text-sm font-medium transition-colors hover:bg-secondary"
+              className="inline-flex h-8 items-center gap-2 border border-border px-3 text-xs font-mono text-muted-foreground transition-colors hover:border-primary hover:text-primary"
             >
-              <GitHubIcon className="h-4 w-4" />
-              Sign in
+              <GitHubIcon className="h-3.5 w-3.5" />
+              sign_in
             </Link>
           )}
         </div>
 
         {/* Mobile menu button */}
         <div className="flex items-center gap-3 md:hidden">
-          <ThemeToggle />
           <button
             onClick={() => setOpen(!open)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-border"
+            className="flex h-8 w-8 items-center justify-center border border-border text-muted-foreground"
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
@@ -88,31 +97,38 @@ export function Navbar() {
             className="overflow-hidden border-b border-border md:hidden"
           >
             <div className="space-y-1 px-4 pb-4">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {links.map((link) => {
+                const active = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className={`block px-3 py-2 text-sm font-mono transition-colors ${
+                      active
+                        ? "text-primary"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {`> ${link.label}`}
+                  </Link>
+                );
+              })}
               {session?.user ? (
                 <button
                   onClick={() => signOut()}
-                  className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-secondary/50 px-4 py-2 text-sm font-medium"
+                  className="mt-2 inline-flex w-full items-center justify-center gap-2 border border-border px-4 py-2 text-xs font-mono text-muted-foreground"
                 >
-                  Sign out
+                  logout
                 </button>
               ) : (
                 <Link
                   href="/login"
                   onClick={() => setOpen(false)}
-                  className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-secondary/50 px-4 py-2 text-sm font-medium"
+                  className="mt-2 inline-flex w-full items-center justify-center gap-2 border border-border px-4 py-2 text-xs font-mono text-muted-foreground"
                 >
-                  <GitHubIcon className="h-4 w-4" />
-                  Sign in with GitHub
+                  <GitHubIcon className="h-3.5 w-3.5" />
+                  sign_in
                 </Link>
               )}
             </div>

@@ -49,8 +49,15 @@ function AnimatedCounter({
   );
 }
 
+const labelMap: Record<string, string> = {
+  "Ideas Submitted": "IDEAS",
+  "Votes Cast": "VOTES",
+  "Projects Shipped": "PROJECTS",
+  "Contributors": "CONTRIBUTORS",
+};
+
 export function Stats() {
-  const { data: stats, error } = trpc.stats.get.useQuery(undefined, {
+  const { data: stats } = trpc.stats.get.useQuery(undefined, {
     staleTime: 30000,
     retry: 1,
   });
@@ -59,45 +66,54 @@ export function Stats() {
 
   return (
     <section className="relative py-24 sm:py-32">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-primary/[0.03] to-background" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="mx-auto max-w-2xl text-center"
         >
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            The community is{" "}
-            <span className="text-gradient">shipping</span>
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl font-mono">
+            <span className="text-muted-foreground">{`// `}</span>
+            <span className="text-primary">system_status</span>
           </h2>
-          <p className="mt-4 text-muted-foreground">
-            Real numbers from real builders. Join the movement.
+          <p className="mt-3 text-muted-foreground font-mono text-xs">
+            Real numbers from real builders.
           </p>
         </motion.div>
 
-        <div className="mt-16 grid grid-cols-2 gap-6 lg:grid-cols-4">
-          {displayStats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 1, y: 0 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="relative rounded-xl border border-border bg-card p-6 text-center"
-            >
-              <div className="text-3xl font-bold tabular-nums sm:text-4xl">
-                <AnimatedCounter
-                  value={stat.value}
-                  suffix={stat.suffix}
-                />
-              </div>
-              <div className="mt-2 text-sm text-muted-foreground">
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 mx-auto max-w-lg border border-border bg-[#0a0a0a] p-6 font-mono"
+        >
+          <div className="text-[10px] text-muted-foreground/50 mb-4 border-b border-border pb-3">
+            {`$ opengenie stats --live`}
+          </div>
+          <div className="space-y-2.5">
+            {displayStats.map((stat, i) => {
+              const label = labelMap[stat.label] ?? stat.label.toUpperCase();
+              const dots = ".".repeat(Math.max(1, 24 - label.length));
+              return (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.15 }}
+                  className="flex items-baseline text-xs"
+                >
+                  <span className="text-muted-foreground">{label}</span>
+                  <span className="text-muted-foreground/30 mx-1">{dots}</span>
+                  <span className="text-primary font-bold text-sm ml-auto">
+                    <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                  </span>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

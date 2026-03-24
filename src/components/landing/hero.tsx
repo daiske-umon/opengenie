@@ -1,159 +1,190 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Terminal } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+const headline = "Ideas in. Code out. Every week.";
+
+function TypingText({ text, className }: { text: string; className?: string }) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        setDisplayed(text.slice(0, i + 1));
+        i++;
+      } else {
+        setDone(true);
+        clearInterval(interval);
+      }
+    }, 50);
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return (
+    <span className={className}>
+      {displayed}
+      <span
+        className={`inline-block w-3 h-7 sm:h-10 bg-primary ml-1 align-middle ${
+          done ? "animate-blink" : ""
+        }`}
+      />
+    </span>
+  );
+}
+
+function CodeRain() {
+  return (
+    <div className="absolute inset-0 overflow-hidden opacity-[0.03] pointer-events-none select-none">
+      {Array.from({ length: 24 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute text-primary font-mono text-[10px] leading-tight whitespace-pre"
+          style={{ left: `${i * 4.2}%`, top: -300 }}
+          animate={{ y: ["-300px", "100vh"] }}
+          transition={{
+            duration: 10 + Math.random() * 10,
+            repeat: Infinity,
+            delay: Math.random() * 6,
+            ease: "linear",
+          }}
+        >
+          {Array.from({ length: 40 })
+            .map(() => {
+              const chars = "01{}[]<>=/;:_-+*&|!?.#@$%^~`";
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join("\n")}
+        </motion.div>
+      ))}
+    </div>
+  );
+}
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
-        <motion.div
-          animate={{
-            backgroundPosition: ["0% 0%", "100% 100%"],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            repeatType: "reverse",
-            ease: "linear",
-          }}
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage:
-              "radial-gradient(ellipse at center, oklch(0.55 0.24 270 / 0.3) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, oklch(0.78 0.16 75 / 0.2) 0%, transparent 50%)",
-            backgroundSize: "200% 200%",
-          }}
-        />
-        {/* Grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
-          }}
-        />
-      </div>
+      <CodeRain />
 
       <div className="mx-auto max-w-7xl px-4 pb-24 pt-24 sm:px-6 sm:pt-32 lg:px-8 lg:pt-40">
         <div className="mx-auto max-w-3xl text-center">
           <motion.div
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm text-primary">
-              <Sparkles className="h-3.5 w-3.5" />
-              Open source. Community driven. Built weekly.
+            <div className="mb-6 inline-flex items-center gap-2 border border-border px-4 py-1.5 text-xs text-muted-foreground font-mono">
+              <Terminal className="h-3 w-3 text-primary" />
+              {`// open source. community driven. built weekly.`}
             </div>
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl"
-          >
-            Ideas in.{" "}
-            <span className="text-gradient">Code out.</span>
-            <br />
-            Every week.
-          </motion.h1>
+          <h1 className="text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl font-mono">
+            <TypingText text={headline} />
+          </h1>
 
           <motion.p
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-6 text-lg text-muted-foreground sm:text-xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.8 }}
+            className="mt-6 text-sm text-muted-foreground sm:text-base font-mono leading-relaxed"
           >
             Submit your idea. The community votes. We build the winner in one
             week — then open it up for everyone to contribute.{" "}
-            <span className="text-foreground font-medium">
+            <span className="text-primary">
               Your wish is our commit.
             </span>
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 2.0 }}
             className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
           >
             <Link
               href="/ideas"
-              className="group relative inline-flex h-12 items-center gap-2 overflow-hidden rounded-xl bg-primary px-8 text-sm font-semibold text-primary-foreground transition-all hover:shadow-lg hover:shadow-primary/25"
+              className="group inline-flex h-10 items-center gap-2 border border-primary bg-primary px-6 text-xs font-bold text-primary-foreground transition-all hover:bg-transparent hover:text-primary font-mono uppercase tracking-widest"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-primary via-purple-500 to-primary bg-[length:200%_100%] transition-all group-hover:animate-[shimmer_2s_ease-in-out_infinite]" />
-              <span className="relative flex items-center gap-2">
-                Submit an Idea
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </span>
+              {`> submit_idea`}
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
             </Link>
             <Link
               href="/projects"
-              className="inline-flex h-12 items-center gap-2 rounded-xl border border-border bg-secondary/50 px-8 text-sm font-semibold transition-colors hover:bg-secondary"
+              className="inline-flex h-10 items-center gap-2 border border-border px-6 text-xs font-bold transition-colors hover:border-primary hover:text-primary font-mono uppercase tracking-widest text-muted-foreground"
             >
-              View Projects
+              {`> view_projects`}
             </Link>
           </motion.div>
         </div>
 
-        {/* Hero visual - floating cards */}
+        {/* Terminal mockup */}
         <motion.div
-          initial={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="relative mx-auto mt-20 max-w-4xl"
+          transition={{ duration: 0.8, delay: 2.2 }}
+          className="relative mx-auto mt-20 max-w-2xl"
         >
-          <div className="glass rounded-2xl p-1">
-            <div className="rounded-xl bg-card/80 p-6 sm:p-8">
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <div className="flex gap-1.5">
-                  <div className="h-3 w-3 rounded-full bg-red-500/50" />
-                  <div className="h-3 w-3 rounded-full bg-yellow-500/50" />
-                  <div className="h-3 w-3 rounded-full bg-green-500/50" />
-                </div>
-                <span className="ml-2 font-mono">opengenie — this week</span>
+          <div className="border border-border bg-[#0a0a0a]">
+            {/* Terminal title bar */}
+            <div className="flex items-center gap-2 border-b border-border px-4 py-2">
+              <div className="flex gap-1.5">
+                <div className="h-2.5 w-2.5 bg-[#27272a]" />
+                <div className="h-2.5 w-2.5 bg-[#27272a]" />
+                <div className="h-2.5 w-2.5 bg-[#27272a]" />
               </div>
-              <div className="mt-6 space-y-4">
-                {[
-                  { icon: "💡", text: "AI-powered code review bot", votes: 342, hot: true },
-                  { icon: "📅", text: "Open source Calendly alternative", votes: 287, hot: false },
-                  { icon: "💰", text: "CLI dashboard for cloud costs", votes: 256, hot: false },
-                ].map((idea, i) => (
-                  <motion.div
-                    key={idea.text}
-                    initial={{ opacity: 1, x: 0 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.7 + i * 0.15 }}
-                    className={`flex items-center justify-between rounded-lg border p-4 transition-colors ${
-                      idea.hot
-                        ? "border-primary/30 bg-primary/5"
-                        : "border-border bg-secondary/30"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-lg">{idea.icon}</span>
-                      <span className="text-sm font-medium">{idea.text}</span>
-                      {idea.hot && (
-                        <span className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-                          TOP VOTED
-                        </span>
-                      )}
-                    </div>
-                    <span className="flex items-center gap-1 text-sm font-semibold tabular-nums text-muted-foreground">
-                      ▲ {idea.votes}
-                    </span>
-                  </motion.div>
-                ))}
+              <span className="ml-2 text-[10px] text-muted-foreground font-mono">
+                ~/opengenie — zsh
+              </span>
+            </div>
+            {/* Terminal content */}
+            <div className="p-5 font-mono text-xs space-y-2.5">
+              <div>
+                <span className="text-primary">$</span>{" "}
+                <span className="text-white">
+                  opengenie submit --idea &quot;Your idea here&quot;
+                </span>
+              </div>
+              <div className="text-green-400">
+                {`✓ Idea submitted. Voting starts now.`}
+              </div>
+              <div className="mt-2">
+                <span className="text-primary">$</span>{" "}
+                <span className="text-white">opengenie status</span>
+              </div>
+              <div className="text-muted-foreground space-y-1">
+                <div>
+                  <span className="text-primary">IDEAS</span>
+                  <span className="text-muted-foreground/40">
+                    {"    ............ "}
+                  </span>
+                  <span className="text-white">47</span>
+                </div>
+                <div>
+                  <span className="text-primary">VOTES</span>
+                  <span className="text-muted-foreground/40">
+                    {"    ............ "}
+                  </span>
+                  <span className="text-white">1,200+</span>
+                </div>
+                <div>
+                  <span className="text-primary">SHIPPED</span>
+                  <span className="text-muted-foreground/40">
+                    {"  ............ "}
+                  </span>
+                  <span className="text-white">12</span>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <span className="text-primary">$</span>{" "}
+                <span className="animate-blink ml-1 text-primary">█</span>
               </div>
             </div>
           </div>
-          {/* Glow effect under the card */}
-          <div className="absolute -bottom-8 left-1/2 -z-10 h-32 w-3/4 -translate-x-1/2 rounded-full bg-primary/20 blur-3xl" />
         </motion.div>
       </div>
     </section>
