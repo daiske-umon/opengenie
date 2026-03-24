@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { trpc } from "@/lib/trpc/client";
 import { SessionProvider } from "next-auth/react";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import superjson from "superjson";
 
 function getBaseUrl() {
@@ -15,7 +15,12 @@ function getBaseUrl() {
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
-      queries: { staleTime: 5 * 1000, retry: 1 },
+      queries: {
+        staleTime: 30 * 1000,
+        retry: 2,
+        retryDelay: 1000,
+        refetchOnWindowFocus: false,
+      },
     },
   }));
 
@@ -31,12 +36,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <SessionProvider>
-      <trpc.Provider client={trpcClient} queryClient={queryClient}>
-        <QueryClientProvider client={queryClient}>
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <SessionProvider
+          refetchInterval={0}
+          refetchOnWindowFocus={false}
+          refetchWhenOffline={false}
+        >
           {children}
-        </QueryClientProvider>
-      </trpc.Provider>
-    </SessionProvider>
+        </SessionProvider>
+      </QueryClientProvider>
+    </trpc.Provider>
   );
 }
