@@ -89,7 +89,7 @@ export function Stats() {
           className="mt-12 mx-auto max-w-lg border border-border bg-[#0a0a0a] p-6 font-mono"
         >
           <div className="text-[10px] text-muted-foreground/50 mb-4 border-b border-border pb-3">
-            {`$ opengenie stats --live`}
+            {`$ 3wishes stats --live`}
           </div>
           <div className="space-y-2.5">
             {displayStats.map((stat, i) => {

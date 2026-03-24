@@ -9,7 +9,7 @@ const footerLinks = {
     { href: "/about", label: "about" },
   ],
   community: [
-    { href: "https://github.com/opengenie", label: "github" },
+    { href: "https://github.com/3wishes", label: "github" },
     { href: "#", label: "discord" },
     { href: "#", label: "twitter" },
   ],
@@ -29,7 +29,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2">
               <Terminal className="text-primary h-4 w-4" />
               <span className="text-primary font-mono text-sm font-bold tracking-tight">
-                OpenGenie
+                3wishes
               </span>
             </Link>
             <p className="text-muted-foreground mt-4 font-mono text-xs leading-relaxed">
@@ -39,7 +39,7 @@ export function Footer() {
             </p>
             <div className="mt-4 flex gap-2">
               <a
-                href="https://github.com/opengenie"
+                href="https://github.com/3wishes"
                 className="border-border text-muted-foreground hover:border-primary hover:text-primary flex h-8 w-8 items-center justify-center border transition-colors"
               >
                 <GitHubIcon className="h-3.5 w-3.5" />
@@ -76,7 +76,7 @@ export function Footer() {
 
         <div className="border-border mt-12 border-t pt-8">
           <p className="text-muted-foreground text-center font-mono text-xs">
-            &copy; {new Date().getFullYear()} OpenGenie | MIT License | built by
+            &copy; {new Date().getFullYear()} 3wishes | MIT License | built by
             the community
           </p>
         </div>

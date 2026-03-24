@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://img.icons8.com/fluency/96/magic-lamp.png" alt="OpenGenie" width="80" />
+  <img src="https://img.icons8.com/fluency/96/magic-lamp.png" alt="3wishes" width="80" />
 </p>
 
-<h1 align="center">OpenGenie</h1>
+<h1 align="center">3wishes</h1>
 
 <p align="center">
   <strong>The open-source idea creation platform.</strong><br />
@@ -42,7 +42,7 @@ The open-source world has a gap:
 
 ## The Solution
 
-**OpenGenie** is a platform where anyone can submit an idea for open-source software. The community votes. We build the top-voted idea in one week — with production-quality architecture. Then the project opens for community contributions.
+**3wishes** is a platform where anyone can submit an idea for open-source software. The community votes. We build the top-voted idea in one week — with production-quality architecture. Then the project opens for community contributions.
 
 Every shipped project lives under one GitHub organization. One idea becomes real software, every single week.
 
@@ -187,7 +187,7 @@ Don't have GitHub OAuth credentials? The app includes a demo login that creates 
 
 **Year 2:** Community maintainers outnumber core team. Companies sponsor builds.
 
-**Year 3:** OpenGenie becomes to open-source what Y Combinator is to startups — the place where the best new projects are born.
+**Year 3:** 3wishes becomes to open-source what Y Combinator is to startups — the place where the best new projects are born.
 
 ---
 
@@ -211,6 +211,6 @@ MIT — see [LICENSE](LICENSE) for details.
 ---
 
 <p align="center">
-  <strong>Built with 🧞 by the OpenGenie team</strong><br />
+  <strong>Built with 🧞 by the 3wishes team</strong><br />
   <em>Got an idea? Submit it. We'll build it.</em>
 </p>

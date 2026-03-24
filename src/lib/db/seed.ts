@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/better-sqlite3";
 import * as schema from "./schema";
 import path from "path";
 
-const dbPath = path.join(process.cwd(), "opengenie.db");
+const dbPath = path.join(process.cwd(), "3wishes.db");
 
 // Read and execute the SQL schema to create tables
 const sqlite = new Database(dbPath);
@@ -351,7 +351,7 @@ const projectData = [
     name: "DepViz",
     description:
       "Interactive graph showing your project's dependency tree with vulnerability highlights and size analysis.",
-    repoUrl: "https://github.com/opengenie/depviz",
+    repoUrl: "https://github.com/3wishes/depviz",
     demoUrl: "https://depviz.dev",
     techStack: ["TypeScript", "D3.js", "CLI", "SVG"],
     status: "maintained" as const,
@@ -363,7 +363,7 @@ const projectData = [
     name: "GitDocs",
     description:
       "Visual editor for Markdown docs that commits directly to your repo. No database, no vendor lock-in.",
-    repoUrl: "https://github.com/opengenie/gitdocs",
+    repoUrl: "https://github.com/3wishes/gitdocs",
     demoUrl: "https://gitdocs.dev",
     techStack: ["Next.js", "ProseMirror", "GitHub API"],
     status: "maintained" as const,
@@ -376,7 +376,7 @@ const projectData = [
     name: "GitHub Insights",
     description:
       "Adds contribution analytics, code frequency charts, and team activity heatmaps right into the GitHub UI.",
-    repoUrl: "https://github.com/opengenie/gh-insights",
+    repoUrl: "https://github.com/3wishes/gh-insights",
     techStack: ["TypeScript", "Chrome Extension", "Chart.js"],
     status: "maintained" as const,
     launchedAt: ts(25),

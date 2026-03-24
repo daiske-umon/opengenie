@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer";
 import { Providers } from "@/components/providers";
 
 export const metadata: Metadata = {
-  title: "OpenGenie — Ideas in. Code out. Every month.",
+  title: "3wishes — Ideas in. Code out. Every month.",
   description:
     "Open-source idea creation platform. Submit ideas, vote, build together. Your wish is our commit.",
   keywords: ["open source", "ideas", "community", "code", "build"],

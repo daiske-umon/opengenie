@@ -59,7 +59,7 @@ export default function AboutPage() {
           transition={{ delay: 0.2 }}
           className="text-muted-foreground mt-5 font-mono text-sm"
         >
-          OpenGenie is a community-powered platform where anyone can submit an
+          3wishes is a community-powered platform where anyone can submit an
           idea for an open-source project. The community votes, maintainers
           review the board during the first week of each month, build the winner
           for the rest of the month, and then ship it back for everyone to

@@ -61,7 +61,7 @@ export const testimonials = [
     role: "Core Contributor",
     avatar: "MJ",
     content:
-      "OpenGenie gave me a reason to ship every month. The ideas are real, the community is supportive, and I've shipped more here than in my day job.",
+      "3wishes gave me a reason to ship every month. The ideas are real, the community is supportive, and I've shipped more here than in my day job.",
   },
   {
     name: "Aiko Tanaka",
