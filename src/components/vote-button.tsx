@@ -3,22 +3,60 @@
 import { ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { trpc } from "@/lib/trpc/client";
+import { useSession } from "next-auth/react";
 
 interface VoteButtonProps {
+  ideaId: number;
   count: number;
 }
 
-export function VoteButton({ count }: VoteButtonProps) {
+export function VoteButton({ ideaId, count }: VoteButtonProps) {
+  const { data: session } = useSession();
   const [voted, setVoted] = useState(false);
   const [displayCount, setDisplayCount] = useState(count);
 
-  function handleVote() {
-    if (voted) {
+  const utils = trpc.useUtils();
+
+  const castVote = trpc.votes.cast.useMutation({
+    onMutate: () => {
+      setVoted(true);
+      setDisplayCount((c) => c + 1);
+    },
+    onError: () => {
       setVoted(false);
       setDisplayCount(count);
-    } else {
+    },
+    onSettled: () => {
+      utils.ideas.list.invalidate();
+    },
+  });
+
+  const removeVote = trpc.votes.remove.useMutation({
+    onMutate: () => {
+      setVoted(false);
+      setDisplayCount((c) => c - 1);
+    },
+    onError: () => {
       setVoted(true);
-      setDisplayCount(count + 1);
+      setDisplayCount(count);
+    },
+    onSettled: () => {
+      utils.ideas.list.invalidate();
+    },
+  });
+
+  function handleVote() {
+    if (!session?.user) {
+      // Redirect to login
+      window.location.href = "/login";
+      return;
+    }
+
+    if (voted) {
+      removeVote.mutate({ ideaId });
+    } else {
+      castVote.mutate({ ideaId });
     }
   }
 

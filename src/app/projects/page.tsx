@@ -1,10 +1,12 @@
 "use client";
 
 import { ProjectCard } from "@/components/project-card";
-import { featuredProjects } from "@/lib/mock-data";
 import { motion } from "framer-motion";
+import { trpc } from "@/lib/trpc/client";
 
 export default function ProjectsPage() {
+  const { data: projects, isLoading } = trpc.projects.list.useQuery();
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-8">
@@ -16,24 +18,28 @@ export default function ProjectsPage() {
         </p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {featuredProjects.map((project, i) => (
-          <motion.div
-            key={project.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-          >
-            <ProjectCard
-              title={project.title}
-              description={project.description}
-              techStack={project.techStack}
-              votes={project.votes}
-              status={project.status}
-            />
-          </motion.div>
-        ))}
-      </div>
+      {isLoading ? (
+        <div className="py-12 text-center text-muted-foreground">Loading projects...</div>
+      ) : (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {(projects ?? []).map((project, i) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <ProjectCard
+                title={project.name}
+                description={project.description ?? ""}
+                techStack={(project.techStack as string[]) ?? []}
+                votes={project.ideaVoteCount ?? 0}
+                status={project.status === "active" ? "building" : "shipped"}
+              />
+            </motion.div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

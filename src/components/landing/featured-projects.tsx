@@ -2,11 +2,17 @@
 
 import { motion } from "framer-motion";
 import { ProjectCard } from "@/components/project-card";
-import { featuredProjects } from "@/lib/mock-data";
+import { trpc } from "@/lib/trpc/client";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export function FeaturedProjects() {
+  const { data: projects } = trpc.projects.list.useQuery(undefined, {
+    staleTime: 30000,
+  });
+
+  const displayProjects = (projects ?? []).slice(0, 4);
+
   return (
     <section className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -33,7 +39,7 @@ export function FeaturedProjects() {
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {featuredProjects.map((project, i) => (
+          {displayProjects.map((project, i) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 30 }}
@@ -42,11 +48,11 @@ export function FeaturedProjects() {
               transition={{ delay: i * 0.1 }}
             >
               <ProjectCard
-                title={project.title}
-                description={project.description}
-                techStack={project.techStack}
-                votes={project.votes}
-                status={project.status}
+                title={project.name}
+                description={project.description ?? ""}
+                techStack={(project.techStack as string[]) ?? []}
+                votes={project.ideaVoteCount ?? 0}
+                status={project.status === "active" ? "building" : "shipped"}
               />
             </motion.div>
           ))}

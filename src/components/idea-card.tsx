@@ -4,16 +4,19 @@ import { Badge } from "@/components/ui/badge";
 import { MessageSquare } from "lucide-react";
 import { VoteButton } from "./vote-button";
 
-type Status = "submitted" | "voting" | "building" | "shipped";
+type Status = "draft" | "voting" | "selected" | "building" | "shipped" | "archived";
 
-const statusColors: Record<Status, string> = {
-  submitted: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+const statusColors: Record<string, string> = {
+  draft: "bg-gray-500/10 text-gray-400 border-gray-500/20",
   voting: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+  selected: "bg-blue-500/10 text-blue-400 border-blue-500/20",
   building: "bg-purple-500/10 text-purple-400 border-purple-500/20",
   shipped: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  archived: "bg-gray-500/10 text-gray-400 border-gray-500/20",
 };
 
 interface IdeaCardProps {
+  id: number;
   title: string;
   description: string;
   votes: number;
@@ -24,6 +27,7 @@ interface IdeaCardProps {
 }
 
 export function IdeaCard({
+  id,
   title,
   description,
   votes,
@@ -39,7 +43,7 @@ export function IdeaCard({
           <div className="flex items-center gap-2">
             <Badge
               variant="outline"
-              className={statusColors[status]}
+              className={statusColors[status] ?? statusColors.draft}
             >
               {status}
             </Badge>
@@ -59,7 +63,7 @@ export function IdeaCard({
             ))}
           </div>
         </div>
-        <VoteButton count={votes} />
+        <VoteButton ideaId={id} count={votes} />
       </div>
       <div className="mt-4 flex items-center gap-1.5 text-xs text-muted-foreground">
         <MessageSquare className="h-3.5 w-3.5" />

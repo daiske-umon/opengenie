@@ -1,26 +1,25 @@
 "use client";
 
 import { IdeaCard } from "@/components/idea-card";
-import { ideas } from "@/lib/mock-data";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { trpc } from "@/lib/trpc/client";
 
-const filters = ["All", "Submitted", "Voting", "Building", "Shipped"] as const;
+const filters = ["All", "Voting", "Building", "Shipped"] as const;
 
 export default function IdeasPage() {
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState<string>("All");
 
-  const filtered = ideas.filter((idea) => {
-    const matchesSearch =
-      idea.title.toLowerCase().includes(search.toLowerCase()) ||
-      idea.description.toLowerCase().includes(search.toLowerCase());
-    const matchesFilter =
-      activeFilter === "All" ||
-      idea.status === activeFilter.toLowerCase();
-    return matchesSearch && matchesFilter;
+  const statusFilter = activeFilter === "All" ? undefined : (activeFilter.toLowerCase() as any);
+  const { data, isLoading } = trpc.ideas.list.useQuery({
+    status: statusFilter,
+    search: search || undefined,
+    limit: 50,
   });
+
+  const ideas = data?.ideas ?? [];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -61,31 +60,36 @@ export default function IdeasPage() {
         </div>
       </div>
 
-      <div className="grid gap-4">
-        {filtered.map((idea, i) => (
-          <motion.div
-            key={idea.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.05 }}
-          >
-            <IdeaCard
-              title={idea.title}
-              description={idea.description}
-              votes={idea.votes}
-              status={idea.status}
-              tags={idea.tags}
-              author={idea.author}
-              commentCount={idea.commentCount}
-            />
-          </motion.div>
-        ))}
-        {filtered.length === 0 && (
-          <div className="py-12 text-center text-muted-foreground">
-            No ideas match your search.
-          </div>
-        )}
-      </div>
+      {isLoading ? (
+        <div className="py-12 text-center text-muted-foreground">Loading ideas...</div>
+      ) : (
+        <div className="grid gap-4">
+          {ideas.map((idea, i) => (
+            <motion.div
+              key={idea.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+            >
+              <IdeaCard
+                id={idea.id}
+                title={idea.title}
+                description={idea.description}
+                votes={idea.voteCount}
+                status={idea.status as any}
+                tags={(idea.tags as string[]) ?? []}
+                author={idea.submitterUsername ?? "unknown"}
+                commentCount={idea.commentCount}
+              />
+            </motion.div>
+          ))}
+          {ideas.length === 0 && (
+            <div className="py-12 text-center text-muted-foreground">
+              No ideas match your search.
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { GitHubIcon } from "./icons";
 import { ThemeToggle } from "./theme-toggle";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSession, signOut } from "next-auth/react";
 
 const links = [
   { href: "/ideas", label: "Ideas" },
@@ -15,6 +16,7 @@ const links = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl">
@@ -41,10 +43,27 @@ export function Navbar() {
 
         <div className="hidden items-center gap-3 md:flex">
           <ThemeToggle />
-          <button className="inline-flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary/50 px-4 text-sm font-medium transition-colors hover:bg-secondary">
-            <GitHubIcon className="h-4 w-4" />
-            Sign in
-          </button>
+          {session?.user ? (
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground">
+                {session.user.name}
+              </span>
+              <button
+                onClick={() => signOut()}
+                className="inline-flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary/50 px-4 text-sm font-medium transition-colors hover:bg-secondary"
+              >
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="inline-flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary/50 px-4 text-sm font-medium transition-colors hover:bg-secondary"
+            >
+              <GitHubIcon className="h-4 w-4" />
+              Sign in
+            </Link>
+          )}
         </div>
 
         {/* Mobile menu button */}

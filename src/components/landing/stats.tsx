@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { stats } from "@/lib/mock-data";
+import { trpc } from "@/lib/trpc/client";
 
 function AnimatedCounter({
   value,
@@ -48,7 +48,21 @@ function AnimatedCounter({
   );
 }
 
+// Fallback data while loading
+const fallbackStats = [
+  { label: "Ideas Submitted", value: 0, suffix: "" },
+  { label: "Votes Cast", value: 0, suffix: "+" },
+  { label: "Projects Shipped", value: 0, suffix: "" },
+  { label: "Contributors", value: 0, suffix: "" },
+];
+
 export function Stats() {
+  const { data: stats } = trpc.stats.get.useQuery(undefined, {
+    staleTime: 30000,
+  });
+
+  const displayStats = stats ?? fallbackStats;
+
   return (
     <section className="relative py-24 sm:py-32">
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-primary/[0.03] to-background" />
@@ -69,7 +83,7 @@ export function Stats() {
         </motion.div>
 
         <div className="mt-16 grid grid-cols-2 gap-6 lg:grid-cols-4">
-          {stats.map((stat, i) => (
+          {displayStats.map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 30 }}
