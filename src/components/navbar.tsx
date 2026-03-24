@@ -98,10 +98,23 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <button className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-secondary/50 px-4 py-2 text-sm font-medium">
-                <GitHubIcon className="h-4 w-4" />
-                Sign in with GitHub
-              </button>
+              {session?.user ? (
+                <button
+                  onClick={() => signOut()}
+                  className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-secondary/50 px-4 py-2 text-sm font-medium"
+                >
+                  Sign out
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setOpen(false)}
+                  className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-secondary/50 px-4 py-2 text-sm font-medium"
+                >
+                  <GitHubIcon className="h-4 w-4" />
+                  Sign in with GitHub
+                </Link>
+              )}
             </div>
           </motion.div>
         )}
