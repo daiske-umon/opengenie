@@ -51,6 +51,12 @@
 }
 
 :root {
+  --font-geist-sans:
+    "IBM Plex Mono", "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono",
+    Menlo, monospace;
+  --font-geist-mono:
+    "IBM Plex Mono", "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono",
+    Menlo, monospace;
   --background: #0a0a0a;
   --foreground: #ffffff;
   --card: #0a0a0a;
@@ -131,7 +137,7 @@
     @apply bg-background text-foreground;
   }
   html {
-    @apply font-mono scroll-smooth;
+    @apply scroll-smooth font-mono;
   }
 }
 
@@ -142,8 +148,13 @@
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .animate-blink {
@@ -151,8 +162,12 @@
 }
 
 @keyframes coderain {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
 }
 
 ::selection {

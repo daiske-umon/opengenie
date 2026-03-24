@@ -29,6 +29,7 @@ export function VoteButton({ ideaId, count }: VoteButtonProps) {
     },
     onSettled: () => {
       utils.ideas.list.invalidate();
+      utils.ideas.getBySlug.invalidate();
     },
   });
 
@@ -43,6 +44,7 @@ export function VoteButton({ ideaId, count }: VoteButtonProps) {
     },
     onSettled: () => {
       utils.ideas.list.invalidate();
+      utils.ideas.getBySlug.invalidate();
     },
   });
 
@@ -62,7 +64,7 @@ export function VoteButton({ ideaId, count }: VoteButtonProps) {
   return (
     <button
       onClick={handleVote}
-      className={`flex flex-col items-center gap-0.5 border px-3 py-2 text-xs font-mono font-bold transition-all ${
+      className={`flex flex-col items-center gap-0.5 border px-3 py-2 font-mono text-xs font-bold transition-all ${
         voted
           ? "border-primary bg-primary/10 text-primary"
           : "border-border text-muted-foreground hover:border-primary hover:text-primary"

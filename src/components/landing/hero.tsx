@@ -1,11 +1,27 @@
 "use client";
 
+import { CountdownTimer } from "@/components/countdown-timer";
+import { PageIllustration } from "@/components/page-illustration";
+import { trpc } from "@/lib/trpc/client";
 import { motion } from "framer-motion";
 import { ArrowRight, Terminal } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const headline = "Ideas in. Code out. Every week.";
+const headline = "Ideas in. Code out. Every month.";
+const codeRainColumns = Array.from({ length: 24 }, (_, i) => {
+  const chars = "01{}[]<>=/;:_-+*&|!?.#@$%^~`";
+  const seed = (i * 37 + 17) % chars.length;
+
+  return {
+    left: `${i * 4.2}%`,
+    duration: 10 + ((i * 13) % 10),
+    delay: ((i * 7) % 6) + i * 0.05,
+    content: Array.from({ length: 40 }, (_, line) => {
+      return chars[(seed + line * 11) % chars.length];
+    }).join("\n"),
+  };
+});
 
 function TypingText({ text, className }: { text: string; className?: string }) {
   const [displayed, setDisplayed] = useState("");
@@ -29,7 +45,7 @@ function TypingText({ text, className }: { text: string; className?: string }) {
     <span className={className}>
       {displayed}
       <span
-        className={`inline-block w-3 h-7 sm:h-10 bg-primary ml-1 align-middle ${
+        className={`bg-primary ml-1 inline-block h-7 w-3 align-middle sm:h-10 ${
           done ? "animate-blink" : ""
         }`}
       />
@@ -39,26 +55,21 @@ function TypingText({ text, className }: { text: string; className?: string }) {
 
 function CodeRain() {
   return (
-    <div className="absolute inset-0 overflow-hidden opacity-[0.03] pointer-events-none select-none">
-      {Array.from({ length: 24 }).map((_, i) => (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-[0.03] select-none">
+      {codeRainColumns.map((column, i) => (
         <motion.div
           key={i}
-          className="absolute text-primary font-mono text-[10px] leading-tight whitespace-pre"
-          style={{ left: `${i * 4.2}%`, top: -300 }}
+          className="text-primary absolute font-mono text-[10px] leading-tight whitespace-pre"
+          style={{ left: column.left, top: -300 }}
           animate={{ y: ["-300px", "100vh"] }}
           transition={{
-            duration: 10 + Math.random() * 10,
+            duration: column.duration,
             repeat: Infinity,
-            delay: Math.random() * 6,
+            delay: column.delay,
             ease: "linear",
           }}
         >
-          {Array.from({ length: 40 })
-            .map(() => {
-              const chars = "01{}[]<>=/;:_-+*&|!?.#@$%^~`";
-              return chars[Math.floor(Math.random() * chars.length)];
-            })
-            .join("\n")}
+          {column.content}
         </motion.div>
       ))}
     </div>
@@ -66,24 +77,30 @@ function CodeRain() {
 }
 
 export function Hero() {
+  const { data: cycle } = trpc.cycles.getCurrent.useQuery();
+
   return (
     <section className="relative overflow-hidden">
       <CodeRain />
+      <PageIllustration
+        variant="landing"
+        className="top-8 left-1/2 h-[680px] w-[900px] -translate-x-1/2"
+      />
 
-      <div className="mx-auto max-w-7xl px-4 pb-24 pt-24 sm:px-6 sm:pt-32 lg:px-8 lg:pt-40">
+      <div className="mx-auto max-w-7xl px-4 pt-24 pb-24 sm:px-6 sm:pt-32 lg:px-8 lg:pt-40">
         <div className="mx-auto max-w-3xl text-center">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="mb-6 inline-flex items-center gap-2 border border-border px-4 py-1.5 text-xs text-muted-foreground font-mono">
-              <Terminal className="h-3 w-3 text-primary" />
-              {`// open source. community driven. built weekly.`}
+            <div className="border-border text-muted-foreground mb-6 inline-flex items-center gap-2 border px-4 py-1.5 font-mono text-xs">
+              <Terminal className="text-primary h-3 w-3" />
+              {`// open source. community driven. built monthly.`}
             </div>
           </motion.div>
 
-          <h1 className="text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl font-mono">
+          <h1 className="font-mono text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
             <TypingText text={headline} />
           </h1>
 
@@ -91,14 +108,22 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.8 }}
-            className="mt-6 text-sm text-muted-foreground sm:text-base font-mono leading-relaxed"
+            className="text-muted-foreground mt-6 font-mono text-sm leading-relaxed sm:text-base"
           >
-            Submit your idea. The community votes. We build the winner in one
-            week — then open it up for everyone to contribute.{" "}
-            <span className="text-primary">
-              Your wish is our commit.
-            </span>
+            Submit your idea. The community votes during the first week of each
+            month. We spend the rest of the month building the winner, then ship
+            it back to the community as open source.{" "}
+            <span className="text-primary">Your wish is our commit.</span>
           </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.95 }}
+            className="mt-8 flex justify-center"
+          >
+            <CountdownTimer endDate={cycle?.endDate} />
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
@@ -108,14 +133,14 @@ export function Hero() {
           >
             <Link
               href="/ideas"
-              className="group inline-flex h-10 items-center gap-2 border border-primary bg-primary px-6 text-xs font-bold text-primary-foreground transition-all hover:bg-transparent hover:text-primary font-mono uppercase tracking-widest"
+              className="group border-primary bg-primary text-primary-foreground hover:text-primary inline-flex h-10 items-center gap-2 border px-6 font-mono text-xs font-bold tracking-widest uppercase transition-all hover:bg-transparent"
             >
               {`> submit_idea`}
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
             </Link>
             <Link
               href="/projects"
-              className="inline-flex h-10 items-center gap-2 border border-border px-6 text-xs font-bold transition-colors hover:border-primary hover:text-primary font-mono uppercase tracking-widest text-muted-foreground"
+              className="border-border hover:border-primary hover:text-primary text-muted-foreground inline-flex h-10 items-center gap-2 border px-6 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
             >
               {`> view_projects`}
             </Link>
@@ -129,20 +154,20 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 2.2 }}
           className="relative mx-auto mt-20 max-w-2xl"
         >
-          <div className="border border-border bg-[#0a0a0a]">
+          <div className="border-border border bg-[#0a0a0a]">
             {/* Terminal title bar */}
-            <div className="flex items-center gap-2 border-b border-border px-4 py-2">
+            <div className="border-border flex items-center gap-2 border-b px-4 py-2">
               <div className="flex gap-1.5">
                 <div className="h-2.5 w-2.5 bg-[#27272a]" />
                 <div className="h-2.5 w-2.5 bg-[#27272a]" />
                 <div className="h-2.5 w-2.5 bg-[#27272a]" />
               </div>
-              <span className="ml-2 text-[10px] text-muted-foreground font-mono">
+              <span className="text-muted-foreground ml-2 font-mono text-[10px]">
                 ~/opengenie — zsh
               </span>
             </div>
             {/* Terminal content */}
-            <div className="p-5 font-mono text-xs space-y-2.5">
+            <div className="space-y-2.5 p-5 font-mono text-xs">
               <div>
                 <span className="text-primary">$</span>{" "}
                 <span className="text-white">
@@ -181,7 +206,7 @@ export function Hero() {
               </div>
               <div className="flex items-center">
                 <span className="text-primary">$</span>{" "}
-                <span className="animate-blink ml-1 text-primary">█</span>
+                <span className="animate-blink text-primary ml-1">█</span>
               </div>
             </div>
           </div>

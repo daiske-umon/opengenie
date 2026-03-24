@@ -13,16 +13,16 @@ export function CTA() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="mx-auto mb-6 flex h-12 w-12 items-center justify-center border border-border"
+            className="border-border mx-auto mb-6 flex h-12 w-12 items-center justify-center border"
           >
-            <Terminal className="h-6 w-6 text-primary" />
+            <Terminal className="text-primary h-6 w-6" />
           </motion.div>
 
           <motion.h2
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-2xl font-bold tracking-tight sm:text-4xl font-mono"
+            className="font-mono text-2xl font-bold tracking-tight sm:text-4xl"
           >
             Got an idea?
             <br />
@@ -34,10 +34,10 @@ export function CTA() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="mt-5 text-sm text-muted-foreground font-mono"
+            className="text-muted-foreground mt-5 font-mono text-sm"
           >
             Submit your idea and let the community decide. The best ones get
-            built — for real, as open source, every single week.
+            built for real, as open source, every single month.
           </motion.p>
 
           <motion.div
@@ -49,7 +49,7 @@ export function CTA() {
           >
             <Link
               href="/ideas"
-              className="group inline-flex h-10 items-center gap-2 border border-primary bg-primary px-6 text-xs font-bold text-primary-foreground transition-all hover:bg-transparent hover:text-primary font-mono uppercase tracking-widest"
+              className="group border-primary bg-primary text-primary-foreground hover:text-primary inline-flex h-10 items-center gap-2 border px-6 font-mono text-xs font-bold tracking-widest uppercase transition-all hover:bg-transparent"
             >
               {`> submit_idea`}
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />

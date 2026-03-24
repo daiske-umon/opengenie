@@ -16,14 +16,14 @@ const steps = [
     cmd: "vote",
     title: "Vote",
     description:
-      "The community upvotes their favorites. Best ideas rise to the top every week.",
+      "The community upvotes their favorites from the 1st to the 7th of each month.",
   },
   {
     icon: Hammer,
     cmd: "build",
     title: "Build",
     description:
-      "Maintainers build the winning idea in one week. Fast, focused, and functional.",
+      "Maintainers build the winning idea from the 8th through the end of the month.",
   },
   {
     icon: Globe,
@@ -39,11 +39,11 @@ export function HowItWorks() {
     <section className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl font-mono">
+          <h2 className="font-mono text-2xl font-bold tracking-tight sm:text-3xl">
             From idea to open source in{" "}
-            <span className="text-primary">one week</span>
+            <span className="text-primary">one month</span>
           </h2>
-          <p className="mt-3 text-xs text-muted-foreground font-mono">
+          <p className="text-muted-foreground mt-3 font-mono text-xs">
             A simple, transparent process that turns community ideas into real
             projects.
           </p>
@@ -57,28 +57,28 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="group relative border border-border bg-[#0a0a0a] p-5 transition-colors hover:border-primary"
+              className="group border-border hover:border-primary relative border bg-[#0a0a0a] p-5 transition-colors"
             >
               {/* Step number */}
-              <div className="text-[10px] font-mono text-muted-foreground/50 mb-3">
+              <div className="text-muted-foreground/50 mb-3 font-mono text-[10px]">
                 {`[${String(i + 1).padStart(2, "0")}]`}
               </div>
 
-              <div className="flex h-8 w-8 items-center justify-center border border-border group-hover:border-primary transition-colors">
-                <step.icon className="h-4 w-4 text-primary" />
+              <div className="border-border group-hover:border-primary flex h-8 w-8 items-center justify-center border transition-colors">
+                <step.icon className="text-primary h-4 w-4" />
               </div>
 
-              <div className="mt-3 text-xs font-mono text-primary">
+              <div className="text-primary mt-3 font-mono text-xs">
                 {`$ ${step.cmd}`}
               </div>
-              <h3 className="mt-1 text-sm font-bold font-mono">{step.title}</h3>
-              <p className="mt-2 text-xs text-muted-foreground font-mono leading-relaxed">
+              <h3 className="mt-1 font-mono text-sm font-bold">{step.title}</h3>
+              <p className="text-muted-foreground mt-2 font-mono text-xs leading-relaxed">
                 {step.description}
               </p>
 
               {/* Connector line (not on last) */}
               {i < steps.length - 1 && (
-                <div className="absolute -right-2 top-1/2 hidden h-px w-4 bg-border lg:block" />
+                <div className="bg-border absolute top-1/2 -right-2 hidden h-px w-4 lg:block" />
               )}
             </motion.div>
           ))}

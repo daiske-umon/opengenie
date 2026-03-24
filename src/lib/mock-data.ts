@@ -54,14 +54,14 @@ export const testimonials = [
     role: "Idea Submitter",
     avatar: "SC",
     content:
-      "I submitted an idea on Monday, it got 200+ votes by Wednesday, and by next week there was a working prototype. This is how open source should work.",
+      "I submitted an idea early in the month, it got 200+ votes during voting week, and by release day there was a working prototype. This is how open source should work.",
   },
   {
     name: "Marcus Johnson",
     role: "Core Contributor",
     avatar: "MJ",
     content:
-      "OpenGenie gave me a reason to code every week. The ideas are real, the community is supportive, and I've shipped more here than in my day job.",
+      "OpenGenie gave me a reason to ship every month. The ideas are real, the community is supportive, and I've shipped more here than in my day job.",
   },
   {
     name: "Aiko Tanaka",
