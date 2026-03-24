@@ -84,7 +84,7 @@ export function Hero() {
       <CodeRain />
       <PageIllustration
         variant="landing"
-        className="top-8 left-1/2 h-[680px] w-[900px] -translate-x-1/2"
+        className="-top-12 left-1/2 h-[820px] w-[1180px] -translate-x-1/2 md:h-[900px] md:w-[1280px]"
       />
 
       <div className="mx-auto max-w-7xl px-4 pt-24 pb-24 sm:px-6 sm:pt-32 lg:px-8 lg:pt-40">

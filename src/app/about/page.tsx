@@ -29,10 +29,10 @@ const values = [
 
 export default function AboutPage() {
   return (
-    <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="relative mx-auto max-w-7xl overflow-hidden px-4 py-12 sm:px-6 lg:px-8">
       <PageIllustration
         variant="about"
-        className="top-4 right-0 h-40 w-56 md:h-52 md:w-72"
+        className="-top-10 -right-20 h-[20rem] w-[28rem] md:-top-14 md:-right-28 md:h-[30rem] md:w-[42rem]"
       />
       {/* Mission */}
       <div className="mx-auto max-w-3xl text-center">

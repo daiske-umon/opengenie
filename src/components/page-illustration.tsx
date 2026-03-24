@@ -5,96 +5,299 @@ export function PageIllustration({
   variant: "landing" | "ideas" | "projects" | "about";
   className?: string;
 }) {
-  const common =
-    "pointer-events-none absolute text-primary opacity-[0.04] select-none";
+  const common = "pointer-events-none absolute select-none";
 
   if (variant === "landing") {
     return (
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 900 700"
-        className={`${common} ${className}`}
-        fill="none"
-      >
-        <path d="M50 110H240V220H430V135H620V310H840" stroke="currentColor" />
-        <path d="M90 450H220V310H360V560H520V420H760" stroke="currentColor" />
-        <path d="M140 610V500H300V350H470V250H710V120" stroke="currentColor" />
-        <path d="M320 80V180H170V360H560V520H840" stroke="currentColor" />
-        <circle cx="240" cy="220" r="8" stroke="currentColor" />
-        <circle cx="430" cy="135" r="8" stroke="currentColor" />
-        <circle cx="620" cy="310" r="8" stroke="currentColor" />
-        <circle cx="360" cy="560" r="8" stroke="currentColor" />
-        <circle cx="520" cy="420" r="8" stroke="currentColor" />
-        <circle cx="300" cy="350" r="8" stroke="currentColor" />
-      </svg>
+      <>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 1200 860"
+          className={`${common} ${className}`}
+          fill="none"
+        >
+          <g className="illustration-base illustration-landing-base">
+            <path d="M80 130H320V270H560V160H820V390H1110" />
+            <path d="M120 560H290V390H470V690H690V510H1010" />
+            <path d="M180 760V610H390V430H620V300H940V130" />
+            <path d="M430 90V220H220V470H720V650H1110" />
+            <circle cx="320" cy="270" r="11" />
+            <circle cx="560" cy="160" r="11" />
+            <circle cx="820" cy="390" r="11" />
+            <circle cx="470" cy="690" r="11" />
+            <circle cx="690" cy="510" r="11" />
+            <circle cx="390" cy="430" r="11" />
+          </g>
+          <g className="illustration-glow illustration-landing-glow">
+            <path d="M80 130H320V270H560V160H820V390H1110" />
+            <path d="M120 560H290V390H470V690H690V510H1010" />
+            <path d="M180 760V610H390V430H620V300H940V130" />
+            <path d="M430 90V220H220V470H720V650H1110" />
+          </g>
+          <g className="illustration-node illustration-landing-node">
+            <circle cx="320" cy="270" r="11" />
+            <circle cx="560" cy="160" r="11" />
+            <circle cx="820" cy="390" r="11" />
+            <circle cx="470" cy="690" r="11" />
+            <circle cx="690" cy="510" r="11" />
+            <circle cx="390" cy="430" r="11" />
+          </g>
+        </svg>
+        <style jsx>{illustrationStyles}</style>
+      </>
     );
   }
 
   if (variant === "ideas") {
     return (
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 280 280"
-        className={`${common} ${className}`}
-        fill="none"
-      >
-        <path
-          d="M140 42c-34 0-62 28-62 62 0 22 11 37 24 51 9 10 14 18 16 31h44c2-13 7-21 16-31 13-14 24-29 24-51 0-34-28-62-62-62Z"
-          stroke="currentColor"
-        />
-        <path d="M112 202h56M118 219h44M124 236h32" stroke="currentColor" />
-        <path
-          d="M140 20v14M208 52l-11 11M236 122h-15M72 52l11 11M44 122h15"
-          stroke="currentColor"
-        />
-      </svg>
+      <>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 420 420"
+          className={`${common} ${className}`}
+          fill="none"
+        >
+          <g className="illustration-base illustration-ideas-base">
+            <path d="M210 58c-52 0-94 42-94 94 0 34 16 57 36 78 13 16 22 28 25 48h66c3-20 12-32 25-48 20-21 36-44 36-78 0-52-42-94-94-94Z" />
+            <path d="M166 302h88M175 330h70M184 358h52" />
+            <path d="M210 26v22M314 74l-17 17M356 182h-24M106 74l17 17M64 182h24" />
+          </g>
+          <g className="illustration-glow illustration-ideas-glow">
+            <path d="M210 58c-52 0-94 42-94 94 0 34 16 57 36 78 13 16 22 28 25 48h66c3-20 12-32 25-48 20-21 36-44 36-78 0-52-42-94-94-94Z" />
+            <path d="M166 302h88M175 330h70M184 358h52" />
+            <path d="M210 26v22M314 74l-17 17M356 182h-24M106 74l17 17M64 182h24" />
+          </g>
+        </svg>
+        <style jsx>{illustrationStyles}</style>
+      </>
     );
   }
 
   if (variant === "projects") {
     return (
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 320 320"
-        className={`${common} ${className}`}
-        fill="none"
-      >
-        <path
-          d="M170 42 212 84 188 108 230 150 176 204 134 162 110 186 68 144Z"
-          stroke="currentColor"
-        />
-        <path
-          d="M176 204c8 30 24 48 50 58-33 4-62-4-85-27"
-          stroke="currentColor"
-        />
-        <path
-          d="M42 246h70M52 266h94M220 248l22 22 36-36"
-          stroke="currentColor"
-        />
-        <path
-          d="M58 82 28 112l30 30M262 84l30 30-30 30"
-          stroke="currentColor"
-        />
-      </svg>
+      <>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 460 460"
+          className={`${common} ${className}`}
+          fill="none"
+        >
+          <g className="illustration-projects-wrap">
+            <g className="illustration-base illustration-projects-base">
+              <path d="M244 66 310 132 272 170 336 234 252 320 186 254 148 292 82 226Z" />
+              <path d="M252 320c12 46 36 74 76 90-50 6-94-8-128-42" />
+              <path d="M52 380h112M68 412h150M324 384l34 34 52-52" />
+              <path d="M74 128 28 174l46 46M386 132l46 46-46 46" />
+            </g>
+            <g className="illustration-glow illustration-projects-glow">
+              <path d="M244 66 310 132 272 170 336 234 252 320 186 254 148 292 82 226Z" />
+              <path d="M252 320c12 46 36 74 76 90-50 6-94-8-128-42" />
+            </g>
+          </g>
+        </svg>
+        <style jsx>{illustrationStyles}</style>
+      </>
     );
   }
 
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 360 260"
-      className={`${common} ${className}`}
-      fill="none"
-    >
-      <circle cx="48" cy="58" r="16" stroke="currentColor" />
-      <circle cx="164" cy="42" r="16" stroke="currentColor" />
-      <circle cx="300" cy="70" r="16" stroke="currentColor" />
-      <circle cx="106" cy="190" r="16" stroke="currentColor" />
-      <circle cx="250" cy="198" r="16" stroke="currentColor" />
-      <path
-        d="M64 56h84M178 48l106 18M58 70l36 104M120 182l114 8M154 54l-36 120"
-        stroke="currentColor"
-      />
-    </svg>
+    <>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 520 360"
+        className={`${common} ${className}`}
+        fill="none"
+      >
+        <g className="illustration-base illustration-about-base">
+          <circle cx="74" cy="82" r="22" />
+          <circle cx="220" cy="58" r="22" />
+          <circle cx="400" cy="94" r="22" />
+          <circle cx="146" cy="274" r="22" />
+          <circle cx="334" cy="286" r="22" />
+          <path d="M96 80h102M242 64l136 22M88 102l46 150M168 264l144 10M208 70l-46 172" />
+        </g>
+        <g className="illustration-glow illustration-about-glow">
+          <path d="M96 80h102M242 64l136 22M88 102l46 150M168 264l144 10M208 70l-46 172" />
+        </g>
+        <g className="illustration-node illustration-about-node">
+          <circle cx="74" cy="82" r="22" style={{ animationDelay: "0s" }} />
+          <circle cx="220" cy="58" r="22" style={{ animationDelay: "0.45s" }} />
+          <circle cx="400" cy="94" r="22" style={{ animationDelay: "0.9s" }} />
+          <circle cx="146" cy="274" r="22" style={{ animationDelay: "1.35s" }} />
+          <circle cx="334" cy="286" r="22" style={{ animationDelay: "1.8s" }} />
+        </g>
+      </svg>
+      <style jsx>{illustrationStyles}</style>
+    </>
   );
 }
+
+const illustrationStyles = `
+  .illustration-base,
+  .illustration-glow,
+  .illustration-node {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .illustration-base {
+    stroke: rgba(255, 255, 255, 0.12);
+    stroke-width: 2;
+  }
+
+  .illustration-glow {
+    stroke: rgba(251, 191, 36, 0.12);
+    stroke-width: 3;
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.18));
+  }
+
+  .illustration-node {
+    stroke: rgba(251, 191, 36, 0.1);
+    stroke-width: 3;
+    filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.14));
+  }
+
+  .illustration-landing-base {
+    animation: landingPulse 4.6s ease-in-out infinite;
+  }
+
+  .illustration-landing-glow path {
+    stroke-dasharray: 120 520;
+    stroke-dashoffset: 780;
+    animation: currentFlow 5.8s linear infinite;
+  }
+
+  .illustration-landing-node circle {
+    animation: nodeFlash 3.2s ease-in-out infinite;
+  }
+
+  .illustration-ideas-base,
+  .illustration-ideas-glow {
+    transform-origin: 50% 54%;
+    animation: bulbFlicker 5.2s ease-in-out infinite;
+  }
+
+  .illustration-ideas-glow {
+    filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.18));
+  }
+
+  .illustration-projects-wrap {
+    transform-origin: 52% 48%;
+    animation: rocketHover 4.8s ease-in-out infinite;
+  }
+
+  .illustration-projects-glow path {
+    stroke-dasharray: 140 460;
+    stroke-dashoffset: 600;
+    animation: trailFlow 5.2s linear infinite;
+  }
+
+  .illustration-about-glow path {
+    stroke-dasharray: 70 220;
+    stroke-dashoffset: 290;
+    animation: networkFlow 6s linear infinite;
+  }
+
+  .illustration-about-node circle {
+    animation: networkPulse 2.25s ease-in-out infinite;
+  }
+
+  @keyframes currentFlow {
+    0% {
+      stroke-dashoffset: 780;
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 0.35;
+    }
+  }
+
+  @keyframes landingPulse {
+    0%,
+    100% {
+      opacity: 0.72;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes nodeFlash {
+    0%,
+    100% {
+      opacity: 0.28;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.08);
+    }
+  }
+
+  @keyframes bulbFlicker {
+    0%,
+    18%,
+    22%,
+    62%,
+    100% {
+      opacity: 0.82;
+    }
+    20%,
+    58% {
+      opacity: 1;
+    }
+    60% {
+      opacity: 0.62;
+    }
+  }
+
+  @keyframes rocketHover {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+
+  @keyframes trailFlow {
+    0% {
+      stroke-dashoffset: 600;
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.9;
+    }
+    100% {
+      stroke-dashoffset: 40;
+      opacity: 0.3;
+    }
+  }
+
+  @keyframes networkFlow {
+    0% {
+      stroke-dashoffset: 290;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes networkPulse {
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: scale(1);
+    }
+    35% {
+      opacity: 1;
+      transform: scale(1.12);
+    }
+  }
+`;

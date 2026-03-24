@@ -9,10 +9,10 @@ export default function ProjectsPage() {
   const { data: projects, isLoading } = trpc.projects.list.useQuery();
 
   return (
-    <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="relative mx-auto max-w-7xl overflow-hidden px-4 py-12 sm:px-6 lg:px-8">
       <PageIllustration
         variant="projects"
-        className="top-0 right-0 h-40 w-40 md:h-56 md:w-56"
+        className="-top-16 -right-20 h-[26rem] w-[26rem] md:-top-24 md:-right-24 md:h-[38rem] md:w-[38rem]"
       />
       <div className="mb-8">
         <h1 className="font-mono text-2xl font-bold tracking-tight sm:text-3xl">

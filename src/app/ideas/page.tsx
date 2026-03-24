@@ -37,10 +37,10 @@ export default function IdeasPage() {
   const ideas = data?.ideas ?? [];
 
   return (
-    <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="relative mx-auto max-w-7xl overflow-hidden px-4 py-12 sm:px-6 lg:px-8">
       <PageIllustration
         variant="ideas"
-        className="top-2 right-0 h-44 w-44 md:h-56 md:w-56"
+        className="-top-12 -right-16 h-[24rem] w-[24rem] md:-top-16 md:-right-20 md:h-[34rem] md:w-[34rem]"
       />
       <div className="mb-8">
         <h1 className="font-mono text-2xl font-bold tracking-tight sm:text-3xl">
