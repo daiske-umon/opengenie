@@ -7,12 +7,12 @@ import { eq } from "drizzle-orm";
 
 export type Context = {
   db: typeof db;
-  session: Awaited<ReturnType<typeof auth>> | null;
+  session: { user?: { id?: string; name?: string | null; email?: string | null; image?: string | null } } | null;
   user: typeof users.$inferSelect | null;
 };
 
 export async function createContext(): Promise<Context> {
-  const session = await auth();
+  const session = await auth() as { user?: { id?: string; name?: string | null; email?: string | null; image?: string | null } } | null;
   let user = null;
   if (session?.user?.id) {
     user = db.select().from(users).where(eq(users.id, session.user.id)).get() ?? null;

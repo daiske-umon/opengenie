@@ -3,22 +3,43 @@
 import { motion } from "framer-motion";
 import { ProjectCard } from "@/components/project-card";
 import { trpc } from "@/lib/trpc/client";
+import { featuredProjects } from "@/lib/mock-data";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export function FeaturedProjects() {
-  const { data: projects } = trpc.projects.list.useQuery(undefined, {
+  const { data: projects, error } = trpc.projects.list.useQuery(undefined, {
     staleTime: 30000,
+    retry: 1,
   });
 
-  const displayProjects = (projects ?? []).slice(0, 4);
+  const dbProjects = (projects ?? []).slice(0, 4).map((p) => ({
+    id: p.id,
+    title: p.name,
+    description: p.description ?? "",
+    techStack: (p.techStack as string[]) ?? [],
+    votes: p.ideaVoteCount ?? 0,
+    status: (p.status === "active" ? "building" : "shipped") as "building" | "shipped",
+  }));
+
+  const displayProjects =
+    dbProjects.length > 0
+      ? dbProjects
+      : featuredProjects.map((p) => ({
+          id: p.id,
+          title: p.title,
+          description: p.description,
+          techStack: p.techStack,
+          votes: p.votes,
+          status: p.status,
+        }));
 
   return (
     <section className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 0 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
@@ -42,17 +63,17 @@ export function FeaturedProjects() {
           {displayProjects.map((project, i) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 1, y: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
               <ProjectCard
-                title={project.name}
-                description={project.description ?? ""}
-                techStack={(project.techStack as string[]) ?? []}
-                votes={project.ideaVoteCount ?? 0}
-                status={project.status === "active" ? "building" : "shipped"}
+                title={project.title}
+                description={project.description}
+                techStack={project.techStack}
+                votes={project.votes}
+                status={project.status}
               />
             </motion.div>
           ))}

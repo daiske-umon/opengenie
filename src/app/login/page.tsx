@@ -8,15 +8,29 @@ import { GitHubIcon } from "@/components/icons";
 export default function LoginPage() {
   const [demoUsername, setDemoUsername] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleDemoLogin(e: React.FormEvent) {
     e.preventDefault();
     if (!demoUsername.trim()) return;
     setLoading(true);
-    await signIn("demo", {
-      username: demoUsername.trim(),
-      callbackUrl: "/ideas",
-    });
+    setError("");
+    try {
+      const result = await signIn("demo", {
+        username: demoUsername.trim(),
+        callbackUrl: "/ideas",
+        redirect: false,
+      });
+      if (result?.error) {
+        setError("Login failed. Please try again.");
+        setLoading(false);
+      } else if (result?.url) {
+        window.location.href = result.url;
+      }
+    } catch {
+      setError("Login failed. Please try again.");
+      setLoading(false);
+    }
   }
 
   return (
@@ -60,6 +74,9 @@ export default function LoginPage() {
               onChange={(e) => setDemoUsername(e.target.value)}
               className="h-10 w-full rounded-lg border border-border bg-secondary/50 px-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
             />
+            {error && (
+              <p className="text-sm text-red-400">{error}</p>
+            )}
             <button
               type="submit"
               disabled={loading || !demoUsername.trim()}

@@ -13,7 +13,7 @@ export default function IdeasPage() {
   const [activeFilter, setActiveFilter] = useState<string>("All");
 
   const statusFilter = activeFilter === "All" ? undefined : (activeFilter.toLowerCase() as any);
-  const { data, isLoading } = trpc.ideas.list.useQuery({
+  const { data, isLoading, error } = trpc.ideas.list.useQuery({
     status: statusFilter,
     search: search || undefined,
     limit: 50,
@@ -60,14 +60,20 @@ export default function IdeasPage() {
         </div>
       </div>
 
-      {isLoading ? (
+      {error ? (
+        <div className="py-12 text-center">
+          <p className="text-muted-foreground">
+            Failed to load ideas. Please try refreshing the page.
+          </p>
+        </div>
+      ) : isLoading ? (
         <div className="py-12 text-center text-muted-foreground">Loading ideas...</div>
       ) : (
         <div className="grid gap-4">
           {ideas.map((idea, i) => (
             <motion.div
               key={idea.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
             >

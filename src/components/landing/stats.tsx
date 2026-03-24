@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { trpc } from "@/lib/trpc/client";
+import { stats as mockStats } from "@/lib/mock-data";
 
 function AnimatedCounter({
   value,
@@ -48,27 +49,20 @@ function AnimatedCounter({
   );
 }
 
-// Fallback data while loading
-const fallbackStats = [
-  { label: "Ideas Submitted", value: 0, suffix: "" },
-  { label: "Votes Cast", value: 0, suffix: "+" },
-  { label: "Projects Shipped", value: 0, suffix: "" },
-  { label: "Contributors", value: 0, suffix: "" },
-];
-
 export function Stats() {
-  const { data: stats } = trpc.stats.get.useQuery(undefined, {
+  const { data: stats, error } = trpc.stats.get.useQuery(undefined, {
     staleTime: 30000,
+    retry: 1,
   });
 
-  const displayStats = stats ?? fallbackStats;
+  const displayStats = stats ?? mockStats;
 
   return (
     <section className="relative py-24 sm:py-32">
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-primary/[0.03] to-background" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="mx-auto max-w-2xl text-center"
@@ -86,7 +80,7 @@ export function Stats() {
           {displayStats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 1, y: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
