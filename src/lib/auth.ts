@@ -1,61 +1,32 @@
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
-import Credentials from "next-auth/providers/credentials";
 import { db } from "./db";
 import { users } from "./db/schema";
 import { eq } from "drizzle-orm";
 
+type SessionUser = {
+  id?: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  role?: string;
+  username?: string;
+};
+
+export const githubAuthEnabled = Boolean(
+  process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET
+);
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    GitHub({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    }),
-    // Demo login for local dev (no GitHub OAuth credentials needed)
-    Credentials({
-      id: "demo",
-      name: "Demo Login",
-      credentials: {
-        username: { label: "Username", type: "text" },
-      },
-      async authorize(credentials) {
-        const username = credentials?.username as string;
-        if (!username) return null;
-
-        const existing = db
-          .select()
-          .from(users)
-          .where(eq(users.username, username))
-          .get();
-
-        if (existing) {
-          return {
-            id: existing.id,
-            name: existing.name,
-            email: `${existing.username}@demo.local`,
-            image: existing.avatarUrl,
-          };
-        }
-
-        // Create new demo user
-        const newUser = db
-          .insert(users)
-          .values({
-            username,
-            name: username,
-            role: "member",
-          })
-          .returning()
-          .get();
-
-        return {
-          id: newUser.id,
-          name: newUser.name,
-          email: `${newUser.username}@demo.local`,
-          image: newUser.avatarUrl,
-        };
-      },
-    }),
+    ...(githubAuthEnabled
+      ? [
+          GitHub({
+            clientId: process.env.GITHUB_CLIENT_ID,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET,
+          }),
+        ]
+      : []),
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
@@ -101,15 +72,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async session({ session, token }) {
       if (token.userId) {
-        session.user.id = token.userId as string;
+        const sessionUser = session.user as SessionUser;
+        sessionUser.id = token.userId as string;
         const dbUser = db
           .select()
           .from(users)
           .where(eq(users.id, token.userId as string))
           .get();
         if (dbUser) {
-          (session.user as any).role = dbUser.role;
-          (session.user as any).username = dbUser.username;
+          sessionUser.role = dbUser.role;
+          sessionUser.username = dbUser.username;
         }
       }
       return session;

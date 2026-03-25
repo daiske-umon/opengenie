@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { ProjectCard } from "@/components/project-card";
 import { trpc } from "@/lib/trpc/client";
-import { featuredProjects } from "@/lib/mock-data";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -23,18 +22,6 @@ export function FeaturedProjects() {
       | "building"
       | "shipped",
   }));
-
-  const displayProjects =
-    dbProjects.length > 0
-      ? dbProjects
-      : featuredProjects.map((p) => ({
-          id: p.id,
-          title: p.title,
-          description: p.description,
-          techStack: p.techStack,
-          votes: p.votes,
-          status: p.status,
-        }));
 
   return (
     <section className="py-24 sm:py-32">
@@ -58,23 +45,30 @@ export function FeaturedProjects() {
         </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {displayProjects.map((project, i) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-            >
-              <ProjectCard
-                title={project.title}
-                description={project.description}
-                techStack={project.techStack}
-                votes={project.votes}
-                status={project.status}
-              />
-            </motion.div>
-          ))}
+          {dbProjects.length > 0 ? (
+            dbProjects.map((project, i) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <ProjectCard
+                  title={project.title}
+                  description={project.description}
+                  techStack={project.techStack}
+                  votes={project.votes}
+                  status={project.status}
+                />
+              </motion.div>
+            ))
+          ) : (
+            <div className="border border-dashed border-border p-6 font-mono text-xs text-muted-foreground sm:col-span-2 lg:col-span-4">
+              No projects have been shipped yet. The first selected idea will
+              appear here once maintainers publish it.
+            </div>
+          )}
         </div>
 
         <div className="mt-8 text-center sm:hidden">

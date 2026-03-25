@@ -163,7 +163,7 @@ export function Hero() {
                 <div className="h-2.5 w-2.5 bg-[#27272a]" />
               </div>
               <span className="text-muted-foreground ml-2 font-mono text-[10px]">
-                ~/3wishes — zsh
+                ~/openjenie - zsh
               </span>
             </div>
             {/* Terminal content */}
@@ -171,7 +171,7 @@ export function Hero() {
               <div>
                 <span className="text-primary">$</span>{" "}
                 <span className="text-white">
-                  3wishes submit --idea &quot;Your idea here&quot;
+                  openjenie submit --idea &quot;Your idea here&quot;
                 </span>
               </div>
               <div className="text-green-400">
@@ -179,7 +179,7 @@ export function Hero() {
               </div>
               <div className="mt-2">
                 <span className="text-primary">$</span>{" "}
-                <span className="text-white">3wishes status</span>
+                <span className="text-white">openjenie status</span>
               </div>
               <div className="text-muted-foreground space-y-1">
                 <div>

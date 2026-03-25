@@ -25,7 +25,7 @@ export function Navbar() {
         <Link href="/" className="flex items-center gap-2 group">
           <Terminal className="h-4 w-4 text-primary" />
           <span className="text-sm font-bold tracking-tight font-mono text-primary">
-            3wishes
+            openjenie
           </span>
         </Link>
 

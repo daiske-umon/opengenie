@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { trpc } from "@/lib/trpc/client";
 import { SessionProvider } from "next-auth/react";
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import superjson from "superjson";
 
 function getBaseUrl() {

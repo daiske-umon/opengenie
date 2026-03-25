@@ -3,7 +3,6 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { trpc } from "@/lib/trpc/client";
-import { stats as mockStats } from "@/lib/mock-data";
 
 function AnimatedCounter({
   value,
@@ -62,7 +61,12 @@ export function Stats() {
     retry: 1,
   });
 
-  const displayStats = stats ?? mockStats;
+  const displayStats = stats ?? [
+    { label: "Ideas Submitted", value: 0, suffix: "" },
+    { label: "Votes Cast", value: 0, suffix: "+" },
+    { label: "Projects Shipped", value: 0, suffix: "" },
+    { label: "Contributors", value: 0, suffix: "" },
+  ];
 
   return (
     <section className="relative py-24 sm:py-32">
@@ -89,7 +93,7 @@ export function Stats() {
           className="mt-12 mx-auto max-w-lg border border-border bg-[#0a0a0a] p-6 font-mono"
         >
           <div className="text-[10px] text-muted-foreground/50 mb-4 border-b border-border pb-3">
-            {`$ 3wishes stats --live`}
+            {`$ openjenie stats --live`}
           </div>
           <div className="space-y-2.5">
             {displayStats.map((stat, i) => {
